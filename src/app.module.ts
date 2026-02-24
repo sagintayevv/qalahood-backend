@@ -18,6 +18,7 @@ import { AdminModule } from './admin/admin.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
+      ignoreEnvFile: process.env.NODE_ENV === 'production',
     }),
 
     // ─── Rate Limiting ─────────────────────────────────────────

@@ -7,10 +7,17 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(config: ConfigService) {
+    // ConfigService может не видеть Railway переменные — берём из process.env напрямую
+    const secret = config.get<string>('JWT_SECRET') || process.env.JWT_SECRET;
+
+    if (!secret) {
+      throw new Error('JWT_SECRET is not defined in environment variables');
+    }
+
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: config.get('JWT_SECRET'),
+      secretOrKey: secret,
     });
   }
 
