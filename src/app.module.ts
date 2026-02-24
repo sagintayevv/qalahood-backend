@@ -1,24 +1,22 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ThrottlerModule } from '@nestjs/throttler';
+import { Module } from "@nestjs/common";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { ThrottlerModule } from "@nestjs/throttler";
 
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
-import { ProductsModule } from './products/products.module';
-import { DesignsModule } from './designs/designs.module';
-import { CartModule } from './cart/cart.module';
-import { OrdersModule } from './orders/orders.module';
-import { UploadModule } from './upload/upload.module';
-import { AdminModule } from './admin/admin.module';
+import { AuthModule } from "./auth/auth.module";
+import { UsersModule } from "./users/users.module";
+import { ProductsModule } from "./products/products.module";
+import { DesignsModule } from "./designs/designs.module";
+import { CartModule } from "./cart/cart.module";
+import { OrdersModule } from "./orders/orders.module";
+import { UploadModule } from "./upload/upload.module";
+import { AdminModule } from "./admin/admin.module";
 
 @Module({
   imports: [
     // ─── Config ────────────────────────────────────────────────
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
-      ignoreEnvFile: process.env.NODE_ENV === 'production',
     }),
 
     // ─── Rate Limiting ─────────────────────────────────────────
@@ -33,15 +31,11 @@ import { AdminModule } from './admin/admin.module';
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        type: 'postgres',
-        host: config.get('DB_HOST'),
-        port: config.get<number>('DB_PORT'),
-        username: config.get('DB_USERNAME'),
-        password: config.get('DB_PASSWORD'),
-        database: config.get('DB_NAME'),
+        type: "postgres",
+        url: config.get<string>("DATABASE_URL"),
         autoLoadEntities: true,
-        synchronize: config.get('NODE_ENV') === 'development', // ТОЛЬКО для dev!
-        logging: config.get('NODE_ENV') === 'development',
+        synchronize: false,
+        ssl: { rejectUnauthorized: false },
       }),
     }),
 
