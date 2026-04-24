@@ -125,7 +125,7 @@ export class CartService {
     };
   }
 
-  private async findItemWithAccess(itemId: number, userId?: number, sessionId?: string) {
+  private async findItemWithAccess(itemId: number, _userId?: number, _sessionId?: string) {
     const item = await this.cartRepo.findOne({ where: { id: itemId } });
     if (!item) throw new NotFoundException('Позиция не найдена');
     // Проверяем что это корзина этого пользователя

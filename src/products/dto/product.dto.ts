@@ -1,6 +1,6 @@
 import {
   IsString, IsNumber, IsEnum, IsBoolean, IsArray,
-  IsOptional, Min, IsUrl,
+  IsOptional, Min,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { ClothingCategory } from '../entities/product.entity';
