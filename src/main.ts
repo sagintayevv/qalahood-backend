@@ -9,13 +9,15 @@ async function bootstrap() {
   // ─── Global Prefix ───────────────────────────────────────────
   app.setGlobalPrefix("api");
 
-  // ─── CORS ────────────────────────────────────────────────────
   app.enableCors({
     origin: [
-      process.env.FRONTEND_URL || "http://localhost:5173",
       "https://qalahood.kz",
+      "https://www.qalahood.kz",
+      "http://localhost:5173",
+      /\.vercel\.app$/,
     ],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Session-Id"],
     credentials: true,
   });
 
